@@ -12,7 +12,7 @@
             {!! Form::open(['method' => 'PUT', 'class' => 'panel-body form-horizontal form-padding', 'url' => route('user.update', $user->id)]) !!}
             <div class="panel-body">
                 <div class="panel-body">
-                    @include('users._form')
+                    @include('backend.users._form')
                 </div>
                 <div class="panel-footer text-right">
                     <button class="btn btn-success" type="submit">Enregistrer</button>
@@ -25,5 +25,5 @@
 
         </div>
     </div>
-    </div>
+
 @endsection

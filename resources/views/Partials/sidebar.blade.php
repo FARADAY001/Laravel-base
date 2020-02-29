@@ -11,7 +11,7 @@
                         <li class="list-header">Navigation</li>
 
                         <!--Menu list item-->
-                        <li class="{{ Request::is('/') ? 'active-link' : '' }}">
+                        <li class="{{ Request::is('admin') ? 'active-link' : '' }}">
                             <a href="{{url('/')}}">
                                 <i class="demo-psi-home"></i>
                                 <span class="menu-title">
@@ -33,7 +33,7 @@
 
 
                                 @can('see', App\User::class)
-                                    <li class="{{ Request::is('user') ? 'active-link' : '' }}">
+                                    <li class="{{ Request::is('admin/user') ? 'active-link' : '' }}">
                                         <a href="{{route('user.index')}}">
                                             <i class="demo-psi-home"></i>
                                             <span class="menu-title">
@@ -46,7 +46,7 @@
 
 
                                 @can('see', App\Role::class)
-                                    <li class="{{ Request::is('role') ? 'active-link' : '' }}">
+                                    <li class="{{ Request::is('admin/role') ? 'active-link' : '' }}">
                                         <a href="{{route('role.index')}}">
                                             <i class="demo-psi-home"></i>
                                             <span class="menu-title">

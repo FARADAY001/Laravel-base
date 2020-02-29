@@ -56,8 +56,8 @@
                         <!-- User dropdown menu -->
                         <ul class="head-list">
                             <li>
-                                <a href="#">
-                                    <i class="demo-pli-male icon-lg icon-fw"></i> Profil
+                                <a href="{{ route('password') }}">
+                                    <i class="demo-pli-male icon-lg icon-fw"></i> Changer de mot de passe
                                 </a>
                             </li>
                         </ul>

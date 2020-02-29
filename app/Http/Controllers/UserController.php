@@ -6,6 +6,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use MercurySeries\Flashy\Flashy;
 
 class UserController extends Controller
 {
@@ -48,7 +49,7 @@ class UserController extends Controller
         $title = "Nouvel Utilisateur";
         $roles = Role::pluck('nom', 'id');
 
-        return view('users.create', compact(['user', 'title', 'roles']));
+        return view('backend.users.create', compact(['user', 'title', 'roles']));
     }
 
     /**
@@ -62,7 +63,10 @@ class UserController extends Controller
         $this->check('create_users');
         $user = new User();
         $this->inputValidation($request, $user);
+
         $user->email = $request['email'];
+        $user->nom = $request['nom'];
+        $user->prenom = $request['prenom'];
         $user->password = bcrypt($request['password']);
         $user->role_id = $request['role'];
 
@@ -109,11 +113,13 @@ class UserController extends Controller
         $this->inputValidation($request, $user);
 
         $user->email = $request['email'];
+        $user->nom = $request['nom'];
+        $user->prenom = $request['prenom'];
 
         if(!empty($request['password']))
             $user->password = bcrypt($request['password']);
 
-        $user->role = $request['role'];
+        $user->role_id = $request['role'];
         $user->save();
 
 
@@ -129,6 +135,46 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function password()
+    {
+        $title = 'Modification mot de passe';
+
+        $user = Auth::user();;
+
+        return view('backend.users.password', compact(['title', 'user']));
+    }
+
+    public function passwordUpdate(Request $request)
+    {
+
+        $this->validate($request, [
+            'password' => 'required||min:5|confirmed',
+        ]);
+
+        $user = User::findOrFail($request['user_id']);
+        $user->password = bcrypt($request['password']);
+        $user->save();
+
+        return redirect(route('dashboard'));
+    }
+
+    public function disable($id)
+    {
+        //$this->check('disable_formation');
+        $user = User::findOrFail($id);
+
+        $user->status = !$user->status;
+        $user->save();
+
+        if ($user->status)
+            Flashy::success($user->nom . ' activé avec succès');
+        else
+            Flashy::error($user->nom . ' désactivé avec succès');
+
+        return redirect(route('user.index'));
+
     }
 
 

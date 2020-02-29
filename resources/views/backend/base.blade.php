@@ -6,6 +6,7 @@
     {{--section pour ajouter les fichiers ou code css--}}
 
 
+    <link href="{{asset('backend/nifty/plugins/switchery/switchery.min.css')}}" rel="stylesheet">
 
     <link href="{{ asset('backend/plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css') }}" rel="stylesheet">
@@ -53,6 +54,8 @@
     <script src="{{ asset('backend/plugins/select2/js/select2.min.js') }}"></script>
 
     <script src="{{ asset('backend/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+
+    <script src="{{asset('backend/nifty/plugins/switchery/switchery.min.js')}}"></script>
 
 
     <script>

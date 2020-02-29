@@ -32,6 +32,7 @@
                     <th>Nom & Prénom</th>
                     <th>email</th>
                     <th>Role</th>
+                    <th>Status</th>
                     <th>Date d'ajout</th>
                     <th class="min-tablet">Action</th>
                 </tr>
@@ -44,6 +45,22 @@
                             <td>{{$user->full_name }}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->role->nom}}</td>
+                            <td>
+                                @if($user->id != Auth::user()->id)
+                                    <form id="{{ 'verification'.$user->id }}"
+                                          action="{{route('user.disable', $user->id)}}" method="POST">
+                                        @csrf
+                                        @if($user->status)
+                                            <input class="demo-sw-checked" onchange="this.form.submit()" checked=""
+                                                   style="display: none;" data-switchery="true" type="checkbox"/>
+                                        @else
+                                            <input class="demo-sw-checked" onchange="this.form.submit()"
+                                                   style="display: none;"
+                                                   data-switchery="true" type="checkbox"/>
+                                        @endif
+                                    </form>
+                                @endif
+                            </td>
                             <td>{{Date::make($user->created_at)->format('d F Y')}}</td>
                             <td>
                                 <form method="POST" action="{{ route('user.destroy', ['id' => $user->id]) }}"
@@ -83,3 +100,15 @@
 
 @endsection
 
+@section('javascript')
+    <script>
+
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.demo-sw-checked'));
+
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html);
+        });
+
+
+    </script>
+@endsection

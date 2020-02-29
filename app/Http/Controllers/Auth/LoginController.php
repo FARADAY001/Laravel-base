@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class LoginController extends Controller
 {
@@ -25,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin';
 
     /**
      * Create a new controller instance.
@@ -35,5 +38,29 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    function authenticated(Request $request,  $user)
+    {
+        if(!$user->status)
+        {
+            $this->guard()->logout();
+
+            $request->session()->invalidate();
+
+            return redirect('/login');
+        }
+
+        if($user->last_login == null)
+        {
+            $user->last_login = Carbon::now();
+            $user->save();
+
+            return redirect('/admin/update-password');
+        }
+
+        $user->last_login = Carbon::now();
+        $user->save();
+
     }
 }

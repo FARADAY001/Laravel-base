@@ -12,14 +12,22 @@
 */
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function (){
+Route::get('/', function(){
+
+    return view('welcome');
+});
+
+Route::group(['middleware' => 'actived', 'prefix' => "admin"], function (){
 
     /********* TABLEAU DE BORD ****************/
-    Route::get('/', 'DashboardController@index');
+    Route::get('/', 'DashboardController@index')->name('dashboard');
     Route::get('/dashboard', 'DashboardController@index');
 
     /********* UTILISATEUR ****************/
     Route::resource('/user', 'UserController');
+    Route::post('/disable/user/{id}', 'UserController@disable')->name('user.disable');
+    Route::get('update-password', 'UserController@password')->name('password');
+    Route::put('update-password', 'UserController@passwordUpdate')->name('password.update');
 
     /********* ROLE ****************/
     Route::resource('/role', 'RoleController');
