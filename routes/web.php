@@ -12,10 +12,7 @@
 */
 Auth::routes();
 
-Route::get('/', function(){
-
-    return view('welcome');
-});
+Route::get('/', 'DashboardController@index')->name('dashboard');
 
 Route::group(['middleware' => 'actived', 'prefix' => "admin"], function (){
 
